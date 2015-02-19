@@ -1,4 +1,4 @@
-divida = 0
+pdivida = 0
 compra = 42
 divida = divida + compra
 compra = 13
