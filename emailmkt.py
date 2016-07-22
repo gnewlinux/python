@@ -3,7 +3,7 @@ import smtplib
 server =smtplib.SMTP_SSL('smtp.gmail.com', 465)
 server.ehlo()
 
-server.login('gnewlinux@gmail.com', 'felix123321')
+server.login('gnewlinux@gmail.com', 'pass')
 
 de = 'gnewlinux@gmail.com'
 para = ['gnewlinux@gmail.com']

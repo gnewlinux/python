@@ -19,6 +19,6 @@ msg['To'] = gnewlinux@gmail.com
 # Send the message via our own SMTP server.
 s = smtplib.SMTP('smtp.gmail.com', 587)
 s.smtp.starttls()
-s.smtp.login('gnewlinux@gmail.com', 'felix123321')
+s.smtp.login('gnewlinux@gmail.com', 'pass')
 s.send_message(msg)
 s.quit()
