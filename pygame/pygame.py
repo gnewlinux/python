@@ -25,14 +25,16 @@ pygame.display.set_caption('Asteroids')
 background_filename = 'bg_big.png'
 background = pygame.image.load(background_filename).convert()
 
-
+## Importacao Audio explosao
 explosion_sound = pygame.mixer.Sound('boom.wav')
 explosion_played = False
 
+
 ## --- OBJETOS ---
+
 ship = {
     'surface': pygame.image.load('ship.png').convert_alpha(),
-    'position': [randrange(956), randrange(560)],
+    'position': [(440),(400)],
     'speed': {
         'x': 0,
         'y': 0
@@ -55,10 +57,10 @@ def create_asteroid():
     return {
         'surface': pygame.image.load('asteroid.png').convert_alpha(),
         'position': [randrange(892), -64],
-        'speed': randrange(1, 11)
+        'speed': randrange(3, 11)
     }
 
-ticks_to_asteroid = 90
+ticks_to_asteroid = 60
 asteroids = []
 
 def move_asteroids():
@@ -86,6 +88,11 @@ def ship_collided():
 collided = False
 collision_animation_counter = 0
 
+ship['speed'] = {
+      'x':0,
+      'y':0
+}
+
 while True:
     
     if not ticks_to_asteroid:
@@ -94,28 +101,47 @@ while True:
     else:
         ticks_to_asteroid -= 1
 
-    ship['speed'] = {
-            'x':0,
-            'y':0
-            }
-
     for event in pygame.event.get():
         if event.type == QUIT:
             exit()
 
     pressed_keys = pygame.key.get_pressed()
+   
+   
+    if ship['position'][1] > 590:
+        ship['position'][1] = -20
+    if ship['position'][1] < -30:
+        ship['position'][1] = 580
+    
+    if ship['position'][0] > 980:
+        ship['position'][0] = -20
+    if ship['position'][0] < -30:
+        ship['position'][0] = 970
 
     if pressed_keys[K_UP]:
-        ship['speed']['y'] = -5
+        ship['speed']['y'] -= 0.3
+        print ship['speed']['y']
     elif pressed_keys[K_DOWN]:
-        ship['speed']['y'] = 5
+        ship['speed']['y'] += 0.3
     if pressed_keys[K_LEFT]:
-        ship['speed']['x'] = -5
+        ship['speed']['x'] -= 0.3
     elif pressed_keys[K_RIGHT]:
-        ship['speed']['x'] = 5
+        ship['speed']['x'] += 0.3
 
     screen.blit(background, (0, 0))
-    
+
+    if ship['speed']['x'] < 0:
+        ship['speed']['x'] += 0.1
+   
+    if ship['speed']['y'] < 0:
+        ship['speed']['y'] += 0.1
+  
+    if ship['speed']['x'] > 0:
+        ship['speed']['x'] -= 0.1
+   
+    if ship['speed']['y'] > 0:
+        ship['speed']['y'] -= 0.1
+  
     if not collided:
         collided = ship_collided()
         ship['position'][0] += ship['speed']['x']
