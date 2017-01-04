@@ -109,9 +109,10 @@ def main():
     while True:
         background['position'][1] += 0.8
         global ticks_to_asteroid
+        global conti
+        global pontos
         if not ticks_to_asteroid:
             ticks_to_asteroid = conti
-            global conti
             asteroids.append(create_asteroid())
             conti -= 1
             if conti <= 7:
@@ -179,8 +180,6 @@ def main():
             
             global explosion_played
             global collision_animation_counter
-            global ponto_final
-            global ponto
             if not explosion_played:
                 explosion_played = True
                 explosion_sound.play()
@@ -193,14 +192,19 @@ def main():
                 text = game_font.render('GAME OVER', 1, (255,0,0))
                 screen.blit(text, (335,250))
                 screen.blit(ponto_final, (490,320))
+            
+                ## RESTART GAME
                 if pressed_keys[K_RETURN]:
-                    print 'ENTER'
                     explosion_played = False
                     collided = False
                     ship['position'][0] = 440
                     ship['position'][1] = 400
                     ship['speed']['x'] = 0
                     ship['speed']['y'] = 0
+                    ponto = 0
+                    ponto_final = 0
+                    pontos = 0
+                    conti = 60
                     main()
 
             
