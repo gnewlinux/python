@@ -85,6 +85,12 @@ def create_asteroid():
         'speed': randrange(5, 15)
     }
 
+def create_gun():
+    return {
+        'surface': pygame.image.load('gun.png').convert_alpha(),
+        'position': ship['position'],
+        'speed': 10
+    }
 
 def move_asteroids():
     for asteroid in asteroids:
@@ -125,10 +131,13 @@ def main():
     global ticks_to_asteroid
     global conti
     global pontos
+
      
     ## LOOP PRINCIPAL / VARIAVEIS / CONTADOR
     while True:
-        
+        nave_x = ship['position'][0]
+        nave_y = ship['position'][1]
+        create_asteroid()
         if not ticks_to_asteroid:
             ticks_to_asteroid = conti
             asteroids.append(create_asteroid())
@@ -166,7 +175,9 @@ def main():
             ship['speed']['x'] += 0.5
             ship['surface'] = pygame.image.load('ship_d.png').convert_alpha()
         elif pressed_keys[K_SPACE]:
-            screen.blit(gun['surface'], gun['position'])
+            #gun['position'][1] += 1
+            #screen.blit(gun['surface'], ship['position'])
+            create_gun()
         elif pressed_keys[K_ESCAPE]:
             exit()
 
@@ -229,6 +240,7 @@ def main():
                 if pressed_keys[K_RETURN]:
                     explosion_played = False
                     collided = False
+                    collision_animation_counter = 0
                     ship['position'][0] = 440
                     ship['position'][1] = 400
                     ship['speed']['x'] = 0
