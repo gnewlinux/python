@@ -35,6 +35,18 @@ explosion_sound = pygame.mixer.Sound('boom.wav')
 explosion_played = False
 
 
+## --- VARIAVEIS ---
+
+ticks_to_asteroid = 30
+clock = pygame.time.Clock()
+asteroids = []
+collided = False
+collision_animation_counter = 0
+conti = 60
+pontos = 0
+restart = 1
+
+
 ## --- OBJETOS ---
 
 ship = {
@@ -56,17 +68,23 @@ exploded_ship = {
      'rect': Rect(0, 0, 48, 48)
 }
 
-clock = pygame.time.Clock()
+gun = {
+    'surface': pygame.image.load('gun.png').convert_alpha(),
+    'position': [(200),(200)],
+    'speed': 0,
+    'rect': Rect(0, 0, 4, 19)
+}
+
+
+## --- FUNCOES ---
 
 def create_asteroid():
     return {
         'surface': pygame.image.load('asteroid.png').convert_alpha(),
         'position': [randrange(892), -64],
-        'speed': randrange(5, 10)
+        'speed': randrange(5, 15)
     }
 
-ticks_to_asteroid = 30
-asteroids = []
 
 def move_asteroids():
     for asteroid in asteroids:
@@ -92,25 +110,25 @@ def ship_collided():
             return True
     return False
 
-collided = False
-collision_animation_counter = 0
 
 ship['speed'] = {
       'x':0,
       'y':0
 }
 
-conti = 60
-pontos = 0
-restart = 1
+
+##### FUNCAO MAIN #####
 
 def main():
-
+       
+    global collided
+    global ticks_to_asteroid
+    global conti
+    global pontos
+     
+    ## LOOP PRINCIPAL / VARIAVEIS / CONTADOR
     while True:
-        background['position'][1] += 0.8
-        global ticks_to_asteroid
-        global conti
-        global pontos
+        
         if not ticks_to_asteroid:
             ticks_to_asteroid = conti
             asteroids.append(create_asteroid())
@@ -120,37 +138,40 @@ def main():
         else:
              ticks_to_asteroid -= 1
 
-#    print ticks_to_asteroid
-
+    ## EXIT ON
         for event in pygame.event.get():
             if event.type == QUIT:
                 exit()
 
+    ## BACKGROUND / NAVE
+
+        background['position'][1] += 0.8
         screen.blit(background['surface'], background['position'])
-    
+   
+        ship['surface'] = pygame.image.load('ship.png').convert_alpha()
+   
+   
+   ## KEY LIST
         pressed_keys = pygame.key.get_pressed()
-   
-   
-        if ship['position'][1] > 590:
-            ship['position'][1] = -20
-        if ship['position'][1] < -30:
-            ship['position'][1] = 580
-    
-        if ship['position'][0] > 980:
-            ship['position'][0] = -20
-        if ship['position'][0] < -30:
-            ship['position'][0] = 970
 
         if pressed_keys[K_UP]:
             ship['speed']['y'] -= 0.5
+            ship['surface'] = pygame.image.load('ship_f.png').convert_alpha()
         elif pressed_keys[K_DOWN]:
             ship['speed']['y'] += 0.5
         if pressed_keys[K_LEFT]:
             ship['speed']['x'] -= 0.5
+            ship['surface'] = pygame.image.load('ship_e.png').convert_alpha()
         elif pressed_keys[K_RIGHT]:
             ship['speed']['x'] += 0.5
+            ship['surface'] = pygame.image.load('ship_d.png').convert_alpha()
+        elif pressed_keys[K_SPACE]:
+            screen.blit(gun['surface'], gun['position'])
+        elif pressed_keys[K_ESCAPE]:
+            exit()
 
 
+    ## GRAVIDADE
         if ship['speed']['x'] < 0:
             ship['speed']['x'] += 0.1
    
@@ -162,8 +183,19 @@ def main():
    
         if ship['speed']['y'] > 0:
             ship['speed']['y'] -= 0.1
-  
-        global collided
+
+    ## FIM DO MAPA
+        if ship['position'][1] > 590:
+            ship['position'][1] = -20
+        if ship['position'][1] < -30:
+            ship['position'][1] = 580
+    
+        if ship['position'][0] > 980:
+            ship['position'][0] = -20
+        if ship['position'][0] < -30:
+            ship['position'][0] = 970
+
+
         if not collided:
             collided = ship_collided()
             ship['position'][0] += ship['speed']['x']
