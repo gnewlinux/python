@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-## KWARGS e para trabalhar com listas
-## lista = {"nome":"valor","nome2":"valor2"}
+## KWARGS e para trabalhar com dicionairos
+## dicionario = {"nome":"valor","nome2":"valor2"}
 
 def exemplo(**kwargs):
 	print type(kwargs)

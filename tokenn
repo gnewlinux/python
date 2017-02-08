@@ -1,0 +1,16 @@
+#!/usr/bin/python
+import sys
+from datetime import datetime,timedelta,date
+
+acesso = datetime(2016,02,01,00,00,00)
+atual = datetime(2016,02,01,01,00,05)
+
+if (atual - acesso).total_seconds() >= 3600:
+	print "Seu token expirou"
+	print (atual - acesso).total_seconds()
+else:
+	print "Acesso liberado!"
+
+
+
+sys.exit()
