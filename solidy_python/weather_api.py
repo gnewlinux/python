@@ -26,7 +26,7 @@ while True:
 		tempo_float = float(tempo['main']['temp']) - 273.15
 
 		# traducao
-		dicionario = {"Clear":"Limpo", "Clouds":"Nublado", "Rain":"Chuva"}
+		dicionario = {"Clear":"Limpo", "Clouds":"Nublado", "Rain":"Chuvai", "Drizzle":"Chuvisco"}
 
 		if tempo_convertido in dicionario:
 			tempo_convertido = dicionario[tempo_convertido]
