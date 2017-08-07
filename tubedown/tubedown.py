@@ -6,8 +6,7 @@ from tkinter import filedialog
 import webbrowser
 
 
-# FUNCTIONS
-
+### FUNCTIONS
 def clickAbout():
     about = Toplevel()
     about.title('About')
@@ -76,14 +75,14 @@ def exit():
 	root.destroy()
 
 
-## TK MAIN LOOP
+### TK MAIN LOOP
 root = Tk()
 root.title('tube_down')
 root.geometry('220x200')
 
 video = StringVar()
 
-## MENU BAR
+### MENU BAR
 menubar = Menu(root)
 filemenu = Menu(menubar, tearoff=0)
 
@@ -96,8 +95,7 @@ menubar.add_cascade(label="Help", menu=helpmenu)
 
 root.config(menu=menubar, borderwidth=0, highlightthickness=0)
 
-
-## WIDGETS
+### WIDGETS
 logo = PhotoImage(file='img/youtube.png')
 lb_logo = Label(root)
 lb_logo['image'] = logo
@@ -122,7 +120,6 @@ btn1.pack(side=LEFT, padx=20)
 
 btn2 = Button(root, text='Quit', command=exit)
 btn2.pack(side=RIGHT, padx=20)
-
 
 ### LOOP
 root.mainloop()
