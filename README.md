@@ -1,4 +1,4 @@
 python
 ======
 
-Python
+Estudos em python 3
