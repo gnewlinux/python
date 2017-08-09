@@ -1,4 +1,9 @@
 from django.shortcuts import render
+from .models import DadosPessoais
+
 
 def portifolio_exibir(request):
-	return render(request, 'portifolios/portifolio_exibir.html', {})
+
+	pessoa = DadosPessoais.objects.all()
+	context = {'pessoa' : pessoa}
+	return render(request, 'portifolios/portifolio_exibir.html', context)
