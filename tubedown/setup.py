@@ -5,9 +5,9 @@ libdir = 'share/tubedown'
 sys.path += [os.path.join(os.curdir, libdir)]
 
 setup(name='tubedown',
-      version='1.0',
+      version='0.1',
       description='youtube-dl gui',
-      license='GPL',
+      license='GPL3',
       url='',
       author='Diego Sarzi',
       author_email='diegosarzi@gmail.com',
