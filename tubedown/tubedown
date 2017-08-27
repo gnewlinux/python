@@ -38,7 +38,10 @@ def logo_link():
 	webbrowser.open("https://youtube.com")
 
 def open_video():
-	os.system('vlc %s' % filename)
+	if(type_Down == 3):
+		os.system('vlc %s' % filename.replace('.webm', '.mp3'))
+	if(type_Down == 4):
+		os.system('vlc %s' % filename)
 	toplevel.destroy()
 
 def download_func():
@@ -46,10 +49,12 @@ def download_func():
 	download.set('Wait...')
 
 	if url != '' and validaUrl(url):
-		global filename
-		filename = filedialog.asksaveasfilename(filetypes=[("MP4 Files", "*.mp4")])
 
-		os.system('xterm -geometry 95x10+380+510 -sb -e youtube-dl -f mp4 -o %s %s' % (filename, url))
+		if(type_Down == 3):
+			os.system('xterm -geometry 95x10+380+510 -sb -e youtube-dl --extract-audio --audio-format mp3 -o %s %s' % (filename, url))
+		if(type_Down == 4):
+			os.system('xterm -geometry 95x10+380+510 -sb -e youtube-dl -f mp4 -o %s %s' % (filename, url))
+		
 
 		## STILL NOT RUNNING :(
 		progress['value']=20
@@ -82,8 +87,16 @@ def download_func():
 
 	download.set('Download')
 
-def type_download(type):
-	pass
+def type_download():
+	global filename
+	global type_Down
+	selection = var.get()
+	if(selection == 1):
+		type_Down = 3
+		filename = filedialog.asksaveasfilename(filetypes=[("MP3 Files", "*.webm")])
+	elif(selection == 2):		
+		type_Down = 4
+		filename = filedialog.asksaveasfilename(filetypes=[("MP4 Files", "*.mp4")])
 
 def validaUrl(url):
 	ref = 'https://www.youtube.com'
@@ -100,7 +113,7 @@ def exit():
 ### TK MAIN LOOP
 root = Tk()
 root.title('tube_down')
-root.geometry('220x200')
+root.geometry('220x240')
 
 video = StringVar()
 
@@ -132,19 +145,23 @@ ed = Entry(root, textvariable=video)
 ed.pack()
 ed.bind('<Button-1>', clear)
 
+var=IntVar()
+dwMp3 = Radiobutton(root, text='MP3', value=1, variable=var, command=type_download).place(x=40,y=140)
+dwMp4 = Radiobutton(root, text='MP4', value=2, variable=var, command=type_download).place(x=130,y=140)
+
+
 progress=Progressbar(root,orient=HORIZONTAL,length=500,mode='determinate')
 progress.pack(side=BOTTOM)
 
 download = StringVar()
 download.set('Download')
 btn1 = Button(root, textvariable=download, command=download_func)
-btn1.pack(side=LEFT, padx=20)
+btn1.pack(side=LEFT, padx=20, pady=0)
 
 btn2 = Button(root, text='Quit', command=exit)
 btn2.pack(side=RIGHT, padx=20)
 
-num=IntVar()
-cb_type = Radiobutton(root, text='MP4', value=1, variable=num).place(x=20,y=80)
+
 
 ### LOOP
 root.mainloop()
