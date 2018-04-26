@@ -9,8 +9,6 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 user = api.get_user('diegosarzi')._json
-tweets = api.user_timeline(screen_name='diegosarzi')
-print(tweets)
 
 def seguidores(usuarios_no_twitter):
     consulta_api = api.get_user(usuarios_no_twitter)._json
@@ -25,7 +23,5 @@ def seguindo(usuarios):
 nome = input('Digite o user twitter: ')
 seguidores = seguidores(nome)
 seguindo = seguindo(nome)
-tweets = api.home_timeline(since_id)
 
 print(f'Quantos seguem: {seguidores}, seguindo: {seguindo}')
-
