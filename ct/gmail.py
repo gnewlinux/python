@@ -13,7 +13,7 @@ msg = f'\nGerenciamento Espaço:\n\n {topo} \n {df}\n\n.........................
 
 
 server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-server.login('diegosarzi@gmail.com', 'mInister23')
+server.login('diegosarzi@gmail.com', '')
 
 para = 'diegosarzi@gmail.com'
 corpo = msg.encode('utf8')
