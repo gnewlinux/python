@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=TubeDown
+Categories=AudioVideo;
+Comment=GUI youtube-dl
+Exec=/usr/bin/tubedown
+Icon=tubedown.png

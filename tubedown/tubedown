@@ -146,7 +146,7 @@ menubar.add_cascade(label="Help", menu=helpmenu)
 root.config(menu=menubar, borderwidth=0, highlightthickness=0)
 
 ### WIDGETS
-logo = PhotoImage(file='/usr/share/tubedown/youtube.png')
+logo = PhotoImage(file='/usr/share/tubedown/tubedown.png')
 lb_logo = Label(root)
 lb_logo['image'] = logo
 url = 'https://youtube.com'
