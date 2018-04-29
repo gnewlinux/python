@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-#  TUBEDOWN 1.0 beta
+#  TUBEDOWN 0.1 beta
 # 
 #  Copyright 2017 Diego Sarzi 
 #
@@ -25,13 +25,23 @@ from tkinter import filedialog
 import webbrowser
 
 ### FUNCTIONS
+def choose():
+	choose = Toplevel()
+	choose.title('Choose one')
+	choose.geometry('200x100')
+	label = Label(choose, text='Choose format:', justify='center')
+	label2 = Label(choose, text='Audio(mp3) or Video(mp4)', justify='center')
+
+	label.pack(padx=10, pady=(25,10))
+	label2.pack(padx=10)
+
 def clickAbout():
 	about = Toplevel()
 	about.title('About')
 	about.geometry('200x100+500+200')
 	label1 = Label(about, text='gnew.2017', justify='center')
 	label1.pack(padx=10, pady=(25, 10))
-	label2 = Label(about, text='good downloads!', justify='center')
+	label2 = Label(about, text='Good Downloads!', justify='center')
 	label2.pack(padx=10)
 
 def logo_link():
@@ -39,22 +49,24 @@ def logo_link():
 
 def open_video():
 	if(type_Down == 3):
-		os.system('vlc %s' % filename.replace('.webm', '.mp3'))
+		os.system('xdg-open %s' % filename.replace('.webm', '.mp3'))
 	if(type_Down == 4):
-		os.system('vlc %s' % filename)
+		os.system('xdg-open %s' % filename)
 	toplevel.destroy()
+
+type_Down = 1
 
 def download_func():
 	url = video.get()
-	download.set('Wait...')
 
-	if url != '' and validaUrl(url):
+	if url != '' and validaUrl(url) and type_Down != 1:
 
+		download.set('Wait...')
 		if(type_Down == 3):
 			os.system('xterm -geometry 95x10+380+510 -sb -e youtube-dl --extract-audio --audio-format mp3 -o %s %s' % (filename, url))
 		if(type_Down == 4):
 			os.system('xterm -geometry 95x10+380+510 -sb -e youtube-dl -f mp4 -o %s %s' % (filename, url))
-		
+
 
 		## STILL NOT RUNNING :(
 		progress['value']=20
@@ -68,7 +80,7 @@ def download_func():
 		## NEW WINDOW
 		global toplevel
 		toplevel = Toplevel()
-		toplevel.geometry('200x100')
+		toplevel.geometry('300x100')
 
 		label_top = Label(toplevel, text='Download finished.')
 		label_top.pack(pady=20)
@@ -82,6 +94,8 @@ def download_func():
 		video.set('')
 		progress['value']=0
 
+	elif type_Down == 1:
+		choose()
 	else:
 		video.set('INVALID URL')
 
@@ -94,7 +108,7 @@ def type_download():
 	if(selection == 1):
 		type_Down = 3
 		filename = filedialog.asksaveasfilename(filetypes=[("MP3 Files", "*.webm")])
-	elif(selection == 2):		
+	elif(selection == 2):
 		type_Down = 4
 		filename = filedialog.asksaveasfilename(filetypes=[("MP4 Files", "*.mp4")])
 
@@ -112,8 +126,9 @@ def exit():
 
 ### TK MAIN LOOP
 root = Tk()
-root.title('tube_down')
-root.geometry('220x240')
+root.title('TubeDown - 0.1')
+root.geometry('230x270')
+root.resizable(False, False)
 
 video = StringVar()
 
@@ -145,9 +160,12 @@ ed = Entry(root, textvariable=video)
 ed.pack()
 ed.bind('<Button-1>', clear)
 
+lb2_txt = Label(root, text='Choose Audio or Video: ')
+lb2_txt.pack(pady=10)
+
 var=IntVar()
-dwMp3 = Radiobutton(root, text='MP3', value=1, variable=var, command=type_download).place(x=40,y=140)
-dwMp4 = Radiobutton(root, text='MP4', value=2, variable=var, command=type_download).place(x=130,y=140)
+dwMp3 = Radiobutton(root, text='MP3', value=1, variable=var, command=type_download).place(x=40,y=170)
+dwMp4 = Radiobutton(root, text='MP4', value=2, variable=var, command=type_download).place(x=130,y=170)
 
 
 progress=Progressbar(root,orient=HORIZONTAL,length=500,mode='determinate')
@@ -156,7 +174,7 @@ progress.pack(side=BOTTOM)
 download = StringVar()
 download.set('Download')
 btn1 = Button(root, textvariable=download, command=download_func)
-btn1.pack(side=LEFT, padx=20, pady=0)
+btn1.pack(side=LEFT, padx=20, pady=10)
 
 btn2 = Button(root, text='Quit', command=exit)
 btn2.pack(side=RIGHT, padx=20)
